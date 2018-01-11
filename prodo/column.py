@@ -1,4 +1,4 @@
-from card import Card
+from prodo.card import Card
 
 class Column(object):
     def __init__(self, string=dict()):
@@ -26,3 +26,23 @@ class Column(object):
             for card in self.cards:
                 json['cards'].append(card.write())
         return json
+
+    def find_task(self, id):
+        tsk = [x for x in self.cards if x.id == id]
+        if len(tsk) == 0:
+            return None
+        return tsk[0]
+
+    def add(self, args, id):
+        card = Card()
+        card.name = args.name
+        card.description = args.description
+        card.task_list = args.tasks
+        card.tags = args.tags
+        card.developers = args.dev
+        card.id = id
+        self.cards.append(card)
+
+    def delete(self, id):
+        dlt = [x for x in self.cards if x.id == id]
+        self.cards = [x for x in self.cards if x not in dlt]

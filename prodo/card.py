@@ -42,7 +42,7 @@ class Card(object):
             json['id'] = self.id
         return json
 
-    def display(self, fmt):
+    def display(self, fmt="%i. %n (\033[3m%dv\033[23m)"):
         string = str()
         i = 0
         while i < len(fmt):

@@ -1,8 +1,9 @@
 import os
 from ioterm.table import Table
 from ioterm import display
-from column import Column
-from tag import Tag
+from prodo.column import Column
+from prodo.tag import Tag
+import prodo.result as res
 
 class Board(object):
     def __init__(self, string=dict()):
@@ -60,3 +61,43 @@ class Board(object):
         width = int(os.popen("stty size", "r").read().split()[1])
         print(display.print_aligned("\033[1m" + self.name + "\033[0m", 'c', width))
         tb.display()
+
+    def find_col(self, id):
+        sel = [x for x in self.columns if len([y for y in x.cards if y.id == id]) > 0]
+        if len(sel) == 0:
+            return None
+        return sel[0]
+
+    def add(self, args, id):
+        self.columns[0].add(args, id)
+
+    def delete(self, id):
+        self.find_col(id).delete(id)
+
+    def get_col(self, col):
+        col = [x for x in self.columns if x.name == col]
+        if len(col) == 0:
+            return None
+        else:
+            return col[0]
+
+    def move(self, id, dest):
+        print(id, dest)
+        src = self.find_col(id)
+        if src is None:
+            res.cmd_print(res.Type.ERROR, "Task {} not found in sprint".format(id))
+            return
+        tsk = src.find_task(id)
+        if dest is not None and self.get_col(dest) is not None:
+            self.get_col(dest).cards.append(tsk)
+            src.delete(id)
+        elif dest is not None and self.get_col(dest) is None:
+            res.cmd_print(res.Type.ERROR, "Destination column \"{}\" not found in sprint".format(dest))
+            return
+        elif src != self.columns[-1]:
+            self.columns[self.columns.index(src) + 1].cards.append(tsk)
+            src.delete(id)
+        else:
+            res.cmd_print(res.Type.ERROR, "Task {} already in final column".format(id))
+            return
+

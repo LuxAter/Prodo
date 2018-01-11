@@ -1,0 +1,35 @@
+{
+    "name": "Prodo",
+    "sprints": [{
+        "name": "Sprint 1",
+        "kanban": {
+            "name": "Sprint 1",
+            "columns": [{
+                "name": "Todo",
+                "cards": [{
+                    "name": "Cards",
+                    "description": "Create kanban based cards with attributes",
+                    "tags": ["Feature"],
+                    "developers": ["Arden Rasmussen"],
+                    "id": 1
+                }, {
+                    "name": "Display",
+                    "description": "Way to display the cards",
+                    "tags": ["Feature"],
+                    "developers": ["Arden Rasmussen"],
+                    "id": 2
+                }]
+            }, {
+                "name": "In Progress"
+            }, {
+                "name": "Code Review"
+            }, {
+                "name": "Done"
+            }],
+            "tags": [{
+                "name": "Feature",
+                "color": "#4caf50"
+            }]
+        }
+    }]
+}
